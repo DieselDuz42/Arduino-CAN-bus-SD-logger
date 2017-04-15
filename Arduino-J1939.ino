@@ -1,15 +1,7 @@
 /*
-* Arduino J1939
-*
-*	Hardware:
-*		Arduino Uno: http://www.banggood.com/UNO-R3-ATmega328P-Development-Board-For-Arduino-No-Cable-p-964163.html
-*		Can Bus Shield: https://www.aliexpress.com/item/CAN-BUS-Shield-for-Arduino/32569554666.html
-*		SD Card: https://www.amazon.com/Professional-SanDisk-MicroSDHC-requirements-recordings/dp/9791299625/
-*	Libraries used:
-*		MCP_CAN: https://github.com/coryjfowler/MCP_CAN_lib
-*	Examples used:
-*		Arduino can logger: http://tucrrc.utulsa.edu/Publications/Arduino/arduino.html
-*		CAN_RECIEVE example from the MCP_CAN library
+*	Arduino J1939
+*	http://github.com/DieselDuz42/Arduino-J1939
+*	
 */
 
 #include <mcp_can.h>
@@ -26,8 +18,8 @@ MCP_CAN CAN0(10);                               // Set CS to pin 10
 /** SD_CHIP_SELECT assigned to pin 9*/
 const int SD_CHIP_SELECT       = 9;
 
-/**File name of log file*/
-char fileName[]     = "DATA00.txt";
+
+char fileName[]     = "D00.txt"; // Filename for the log file
 /**Column headers for logged data*/
 char header[]       = "Msg#,Time Diff, ID,DLC, Data";
 /**File objet used to access the SD card*/
@@ -59,13 +51,13 @@ void setup()
   Serial.begin(115200);
 
   
-  // Initialize MCP2515 running at 16MHz with a baudrate of 500kb/s and the masks and filters disabled.
+  // Initialize MCP2515 running at 16MHz with a baudrate of 250kb/s and the masks and filters disabled.
   if(CAN0.begin(MCP_ANY, CAN_250KBPS, MCP_16MHZ) == CAN_OK)
     Serial.println("MCP2515 Initialized Successfully!");
   else
     Serial.println("Error Initializing MCP2515...");
   
-  CAN0.setMode(MCP_LISTENONLY);                     // Set operation mode to normal so the MCP2515 sends acks to received data.
+  CAN0.setMode(MCP_LISTENONLY);                     // Listen only because we do not want to disturb the vehicle's
 
   pinMode(CAN0_INT, INPUT);                            // Configuring pin for /INT input
   
