@@ -1,0 +1,8 @@
+# We really don't need version control for the log files.
+Data/
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
