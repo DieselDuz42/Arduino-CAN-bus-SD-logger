@@ -1,7 +1,9 @@
 # Arduino-J1939
 I have an Arduino, and an interest in J1939.
 
-Hopefully this will end up with a better understanding and a better way to diagnose a vehicle's J1939 can bus.
+Hopefully this will end up with a better understanding and a better way to diagnose a vehicle's J1939 can bus. 
+
+
 
 ## End Goal
 
@@ -13,7 +15,8 @@ The Arduino Uno lacks in processing power & memory. - It's what I have now.
 
 Writing information to SD card takes time. - I need the ability to review the data later, it can't slow down my day job.
 
-My code is horrible - I'm working on that.
+My code is horrible - I'm working on that. I have limited programming expierence and even less using GitHub or Arduino.
+
 
 
 
