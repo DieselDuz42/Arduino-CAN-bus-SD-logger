@@ -12,16 +12,17 @@
 #define CAN0_INT 2 
 #define SD_CHIP_SELECT 9
 MCP_CAN CAN0(10);
-#define SERIAL_ON 1
+/* Set to 1 to enable serial output */
+#define SERIAL_ON 0 
 
 
 long unsigned int rxId;
 unsigned char len = 0;
 unsigned char rxBuf[8];
-char msgString[128];
-unsigned long lastmsgrcv = 0;
-unsigned long tdiff = 0;
-char tbuff;
+char msgString[128]; 
+unsigned long lastmessagetime = 0;
+unsigned long timediff = 0;
+char timebuffer;
 
 /* SD card Settings */
 char fileName[]     = "DATA00.txt";
@@ -49,9 +50,9 @@ boolean initSD(void)
 /* Timing function */
 unsigned long gettdiff()
 {
-  unsigned long curr_t = millis();
-  unsigned long res = curr_t - lastmsgrcv;
-  return ( res );
+  unsigned long time_now = millis();
+  unsigned long result = time_now - lastmessagetime;
+  return ( result );
 }
 
 
@@ -115,14 +116,8 @@ void loop()
     CAN0.readMsgBuf(&rxId, &len, rxBuf);      // Read data: len = data length, buf = data byte(s)
     if (&rxId>0)
     {
-      lastmsgrcv = millis();          // set the last recived var
-      tdiff = gettdiff();            // set the time difference
-      //sprintf(tbuff, "%ld,%ld,", millis(), tdiff); // add the times to the message
-      //#if SERIAL_ON
-  	  //Serial.print(tbuff);
-	    //#endif
-      //dataFile.print(tbuff);
-      sprintf(msgString, "%ld,%ld,0x%.8lX,%1d,", millis(), tdiff, (rxId & 0x1FFFFFFF), len); // formats the message
+      timediff = gettdiff();            // set the time difference
+      sprintf(msgString, "%ld,%ld,0x%.8lX,%1d,", millis(), timediff, (rxId & 0x1FFFFFFF), len); // formats the message
 	    #if SERIAL_ON
 	      Serial.print(msgString);        // print the compiled message to serial
 	    #endif
@@ -134,6 +129,7 @@ void loop()
 	          Serial.print(msgString);        // print the formatted data to serial
 	        #endif
           dataFile.print(msgString);        // print the formatted data to file
+          lastmessagetime = millis();          // set the last recived var
         }
     
   
@@ -141,6 +137,7 @@ void loop()
     Serial.println();         // prints newline to serial
   #endif
   dataFile.println();           // prints newline to file
+  dataFile.flush();
     }
   }
 }
