@@ -1,5 +1,5 @@
 # We really don't need version control for the log files.
-Data/*
+Data/
 
 # Windows image file caches
 Thumbs.db
