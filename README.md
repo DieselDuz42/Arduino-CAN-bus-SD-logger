@@ -1,13 +1,7 @@
-# Arduino-J1939
-I have an Arduino, and an interest in J1939.
-
-Hopefully this will end up with a better understanding and a better way to diagnose a vehicle's J1939 can bus. 
+# Arduino CAN bus logger
+Using an Arduino and a CAN shield connected to a vehicle, save as much information as possible to a SD card for processing later. 
 
 
-
-## End Goal
-
-Have an Arduino powered device that connects to a heavy duty vehicle and displays any known issues with the physical bus, or with the devices on the bus.
 
 ## Known issues
 
