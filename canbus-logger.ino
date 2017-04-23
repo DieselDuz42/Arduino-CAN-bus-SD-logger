@@ -1,6 +1,8 @@
 /*
-   Arduino J1939
-  http://github.com/DieselDuz42/Arduino-J1939
+   Arduino CAN Bus logger
+   http://github.com/DieselDuz42/Arduino-CAN-bus-logger
+   
+   Currently this is focused at recording J1939 traffic.
 
 */
 
