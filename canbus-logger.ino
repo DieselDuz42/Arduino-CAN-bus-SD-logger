@@ -119,14 +119,14 @@ void loop()
     if (&rxId>0)
     {
       timediff = gettdiff();            // set the time difference
-      sprintf(msgString, "%ld,%ld,0x%.8lX,%1d,", millis(), timediff, (rxId & 0x1FFFFFFF), len); // formats the message
+      sprintf(msgString, "%ld,%ld,%.8lX,%1d,", millis(), timediff, (rxId & 0x1FFFFFFF), len); // formats the message
 	    #if SERIAL_ON
 	      Serial.print(msgString);        // print the compiled message to serial
 	    #endif
       dataFile.print(msgString);      // print the compiled message to file
       for (byte i = 0; i < len; i++)
         {    // loop through the data buffer
-          sprintf(msgString, "0x%.2X,", rxBuf[i]);// format the data buffer
+          sprintf(msgString, "%.2X,", rxBuf[i]);// format the data buffer
           #if SERIAL_ON
 	          Serial.print(msgString);        // print the formatted data to serial
 	        #endif
