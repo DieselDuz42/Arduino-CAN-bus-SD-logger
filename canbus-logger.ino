@@ -15,20 +15,28 @@
 #define SD_CHIP_SELECT 9
 MCP_CAN CAN0(10);
 /* Set to 1 to enable serial output */
-#define SERIAL_ON 0 
+#define SERIAL_ON 0
+/* Set to 1 to enable time between messages */
+#define TIMING_ON 0
 
 
 long unsigned int rxId;
 unsigned char len = 0;
 unsigned char rxBuf[8];
 char msgString[128]; 
-unsigned long lastmessagetime = 0;
-unsigned long timediff = 0;
-char timebuffer;
+#if TIMING_ON
+  unsigned long lastmessagetime = 0;
+  unsigned long timediff = 0;
+  char timebuffer;
+#endif
 
 /* SD card Settings */
 char fileName[]     = "DATA00.txt";
-char header[]       = "Time,Time Diff,ID,DLC,Data";
+#if TIMING_ON
+  char header[]       = "Time,Time Diff,ID,DLC,Data";
+#else
+  char header[]       = "Time,ID,DLC,Data";
+#endif
 File dataFile;
 
 boolean initSD(void)
@@ -50,13 +58,14 @@ boolean initSD(void)
 
 
 /* Timing function */
-unsigned long gettdiff()
-{
-  unsigned long time_now = millis();
-  unsigned long result = time_now - lastmessagetime;
-  return ( result );
-}
-
+#if TIMING_ON
+  unsigned long gettdiff()
+  {
+    unsigned long time_now = millis();
+    unsigned long result = time_now - lastmessagetime;
+    return ( result );
+  }
+#endif
 
 void setup()
 {
@@ -118,20 +127,26 @@ void loop()
     CAN0.readMsgBuf(&rxId, &len, rxBuf);      // Read data: len = data length, buf = data byte(s)
     if (&rxId>0)
     {
-      timediff = gettdiff();            // set the time difference
-      sprintf(msgString, "%ld,%ld,%.8lX,%1d,", millis(), timediff, (rxId & 0x1FFFFFFF), len); // formats the message
+      #if TIMING_ON
+        timediff = gettdiff();            // set the time difference
+        sprintf(msgString, "%ld,%ld,%.8lX,%1d,", millis(), timediff, (rxId & 0x1FFFFFFF), len); // formats the message with timing
+      #else
+        sprintf(msgString, "%ld,%ld,%.8lX,%1d,", millis(), (rxId & 0x1FFFFFFF), len ); // formats the message without timing
+      #endif
 	    #if SERIAL_ON
 	      Serial.print(msgString);        // print the compiled message to serial
 	    #endif
       dataFile.print(msgString);      // print the compiled message to file
       for (byte i = 0; i < len; i++)
         {    // loop through the data buffer
-          sprintf(msgString, "%.2X,", rxBuf[i]);// format the data buffer
+          sprintf(msgString, " %.2X", rxBuf[i]);// format the data buffer
           #if SERIAL_ON
 	          Serial.print(msgString);        // print the formatted data to serial
 	        #endif
           dataFile.print(msgString);        // print the formatted data to file
-          lastmessagetime = millis();          // set the last recived var
+          #if TIMING_ON
+            lastmessagetime = millis();          // set the last recived var
+          #endif
         }
     
   
