@@ -2,7 +2,7 @@
 Using an Arduino and a CAN shield connected to a vehicle, save as much information as possible to a SD card for processing later. 
 
 
-## Useage
+## Usage
 You can control serial output and the ability to have the Arduino record the time between messages.
 Setting SERIAL_ON to 1 enables serial output and doesn't take up extra memory thanks to the F() function.
 Setting TIMING_ON to 1 enables the processing and display of time between messages. Currently this uses 18 bytes when enabled.
