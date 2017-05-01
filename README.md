@@ -19,7 +19,7 @@ My code is horrible - I'm working on that. I have limited programming expierence
 
 
 ### Hardware
-* [Arduino Leonardo] (https://www.aliexpress.com/item/2012-Official-Leonardo-R3-MCU-Board-ATmega32u4-Board-with-Original-IC-for-Arduino-Compatible-DIY-Electronics/32602077173.html) Upgraded to the Leonardo for an extra 512bytes of SRAM. 5/1/17
+* [Arduino Leonardo](https://www.aliexpress.com/item/2012-Official-Leonardo-R3-MCU-Board-ATmega32u4-Board-with-Original-IC-for-Arduino-Compatible-DIY-Electronics/32602077173.html) Upgraded to the Leonardo for an extra 512bytes of SRAM. 5/1/17
 * [Arduino Uno](http://www.banggood.com/UNO-R3-ATmega328P-Development-Board-For-Arduino-No-Cable-p-964163.html)
 
 * [Can Bus Shield](https://www.aliexpress.com/item/CAN-BUS-Shield-for-Arduino/32569554666.html)
