@@ -131,7 +131,7 @@ void loop()
         timediff = gettdiff();            // set the time difference
         sprintf(msgString, "%ld,%ld,%.8lX,%1d,", millis(), timediff, (rxId & 0x1FFFFFFF), len); // formats the message with timing
       #else
-        sprintf(msgString, "%ld,%ld,%.8lX,%1d,", millis(), (rxId & 0x1FFFFFFF), len ); // formats the message without timing
+        sprintf(msgString, "%ld,%.8lX,%1d,", millis(), (rxId & 0x1FFFFFFF), len ); // formats the message without timing
       #endif
 	    #if SERIAL_ON
 	      Serial.print(msgString);        // print the compiled message to serial
