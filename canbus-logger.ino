@@ -71,9 +71,11 @@ boolean initSD(void)
 
 void setup()
 {
+  setTime(1357041600);
   Serial.begin(115200);
   initSD();
   #if SERIAL_ON
+    while (!Serial) ; // Needed for Leonardo only
     Serial.println(F("Beginning to log"));
     Serial.print(F("Checking file name: "));
     Serial.println(fileName);
