@@ -7,7 +7,6 @@
 
 */
 
-#include <TimeLib.h>
 #include <mcp_can.h>
 #include <SPI.h>
 #include <SD.h>
@@ -71,7 +70,6 @@ boolean initSD(void)
 
 void setup()
 {
-  setTime(1357041600);
   Serial.begin(115200);
   initSD();
   #if SERIAL_ON
@@ -133,9 +131,9 @@ void loop()
     {
       #if TIMING_ON
         timediff = gettdiff();            // set the time difference
-        sprintf(msgString, "%ld,%ld,%.8lX,%1d,", now(), timediff, (rxId & 0x1FFFFFFF), len); // formats the message with timing
+        sprintf(msgString, "%ld,%ld,%.8lX,%1d,", millis(), timediff, (rxId & 0x1FFFFFFF), len); // formats the message with timing
       #else
-        sprintf(msgString, "%ld,%.8lX,%1d,", now(), (rxId & 0x1FFFFFFF), len ); // formats the message without timing
+        sprintf(msgString, "%ld,%.8lX,%1d,", millis(), (rxId & 0x1FFFFFFF), len ); // formats the message without timing
       #endif
 	    #if SERIAL_ON
 	      Serial.print(msgString);        // print the compiled message to serial
