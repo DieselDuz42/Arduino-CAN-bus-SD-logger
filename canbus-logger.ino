@@ -6,7 +6,7 @@
    Currently this is focused at recording J1939 traffic.
 
 */
-
+#include <TimeLib.h>
 #include <mcp_can.h>
 #include <SPI.h>
 #include <SD.h>
@@ -32,7 +32,7 @@ char msgString[128];
 #endif
 
 /* SD card Settings */
-char fileName[]     = "DATA00.txt";
+char fileName[]     = "DATA00.log";
 #if TIMING_ON
   char header[]       = "Time,Time Diff,ID,DLC,Data";
 #else
@@ -70,6 +70,7 @@ boolean initSD(void)
 
 void setup()
 {
+  setTime(1357041600);
   Serial.begin(115200);
   initSD();
   #if SERIAL_ON
@@ -104,7 +105,7 @@ void setup()
   dataFile.println(header);
   dataFile.flush();
 
-  delay(2000); // running into issues powering on with bus traffic and not logging
+  delay(1000); // running into issues powering on with bus traffic and not logging
   // Initialize MCP2515 running at 16MHz with a baudrate of 250kb/s and the masks and filters disabled.
   if (CAN0.begin(MCP_ANY, CAN_250KBPS, MCP_16MHZ) == CAN_OK)
     #if SERIAL_ON
@@ -133,7 +134,7 @@ void loop()
         timediff = gettdiff();            // set the time difference
         sprintf(msgString, "%ld,%ld,%.8lX,%1d,", millis(), timediff, (rxId & 0x1FFFFFFF), len); // formats the message with timing
       #else
-        sprintf(msgString, "%ld,%.8lX,%1d,", millis(), (rxId & 0x1FFFFFFF), len ); // formats the message without timing
+        sprintf(msgString, "(%ld.%4ld) vcan0 %.8lX#", now(), millis(), (rxId & 0x1FFFFFFF)); // formats the message without timing
       #endif
 	    #if SERIAL_ON
 	      Serial.print(msgString);        // print the compiled message to serial
@@ -141,7 +142,7 @@ void loop()
       dataFile.print(msgString);      // print the compiled message to file
       for (byte i = 0; i < len; i++)
         {    // loop through the data buffer
-          sprintf(msgString, " %.2X", rxBuf[i]);// format the data buffer
+          sprintf(msgString, "%.2X", rxBuf[i]);// format the data buffer
           #if SERIAL_ON
 	          Serial.print(msgString);        // print the formatted data to serial
 	        #endif
