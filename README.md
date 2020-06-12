@@ -1,4 +1,7 @@
 # Arduino CAN bus logger
+
+<mark>**This is not longer being developed. The hardware issues were too difficult for my skill level to overcome.**</mark>
+
 Using an Arduino and a CAN shield connected to a vehicle, save as much information as possible to a SD card for processing later. 
 
 
@@ -8,6 +11,8 @@ Setting SERIAL_ON to 1 enables serial output and doesn't take up extra memory th
 Setting TIMING_ON to 1 enables the processing and display of time between messages. Currently this uses 18 bytes when enabled.
 
 ## Known issues
+
+<mark>**The log files in the repository are not valid, the code used to generate them was very flawed.**</mark>
 
 Currently using the Arduino Leonardo, I have a Mega and a Due on the way to play with.
 
